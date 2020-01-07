@@ -4,7 +4,7 @@
 
 ```py
  repositories {
-        maven { url 'http://10.32.1.78:8081/repository/maven-public/' }
+        maven { url 'http://10.36.5.100:8081/repository/maven-public/' }
     }
 ```
 
@@ -12,7 +12,7 @@
 
 ```py
 dependencies {
-    implementation 'com.fz.weakref:WeakRefHandler:1.0.0'
+    implementation 'com.fz.weakref:WeakRefHandler:1.1.0'
 }
 ```
 

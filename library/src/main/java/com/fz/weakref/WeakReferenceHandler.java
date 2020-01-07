@@ -15,23 +15,31 @@ import java.lang.ref.WeakReference;
  * @date 2019/6/12 10:34
  */
 public final class WeakReferenceHandler extends Handler {
-    private final WeakReference<WeakRefCallback> weak;
+    private final WeakReference<Callback> weak;
 
-    public WeakReferenceHandler(WeakRefCallback listener) {
+    public WeakReferenceHandler(Callback callback) {
         super(Looper.getMainLooper());
-        weak = new WeakReference<>(listener);
+        weak = new WeakReference<>(callback);
     }
 
-    public WeakReferenceHandler(WeakRefCallback listener, Looper looper) {
+    public WeakReferenceHandler(Looper looper, Callback callback) {
+        super(looper, callback);
+        weak = new WeakReference<>(callback);
+    }
+
+    public WeakReferenceHandler(Callback callback, Looper looper) {
         super(looper);
-        weak = new WeakReference<>(listener);
+        weak = new WeakReference<>(callback);
     }
 
     @Override
     public final void handleMessage(Message msg) {
-        final WeakRefCallback listener = weak.get();
-        if (listener != null) {
-            listener.handleMsg(msg);
+        final Callback listener = weak.get();
+        if (listener != null && listener.handleMessage(msg)) {
+            return;
+        }
+        if (listener instanceof WeakRefCallback) {
+            ((WeakRefCallback) listener).handleMsg(msg);
         }
     }
 

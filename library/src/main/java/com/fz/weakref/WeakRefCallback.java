@@ -1,5 +1,6 @@
 package com.fz.weakref;
 
+import android.os.Handler;
 import android.os.Message;
 
 /**
@@ -9,7 +10,7 @@ import android.os.Message;
  * @version 1.0
  * @date 2017/11/7 09:40
  */
-public interface WeakRefCallback {
+public interface WeakRefCallback extends Handler.Callback {
     /**
      * 子类必须实现此功能才能接收消息
      *
@@ -18,6 +19,14 @@ public interface WeakRefCallback {
      * @date 2019/6/12 10:35
      * @version 1.0
      * @see {@link android.os.Handler#handleMessage(Message)}
+     * @deprecated {@link android.os.Handler.Callback#handleMessage(Message)}
      */
-    void handleMsg(Message msg);
+    default void handleMsg(Message msg) {
+
+    }
+
+    @Override
+    default boolean handleMessage(Message msg) {
+        return false;
+    }
 }
